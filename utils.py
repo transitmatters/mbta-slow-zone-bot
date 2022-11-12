@@ -21,7 +21,7 @@ def id_to_stop(line, id):
 def get_stop_pair(slow_zone):
     return (
         id_to_stop(slow_zone["color"], slow_zone["fr_id"])
-        + " - "
+        + " -> "
         + id_to_stop(slow_zone["color"], slow_zone["to_id"])
     )
 
