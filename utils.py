@@ -19,11 +19,7 @@ def id_to_stop(line, id):
 
 
 def get_stop_pair(slow_zone):
-    return (
-        id_to_stop(slow_zone["color"], slow_zone["fr_id"])
-        + " → "
-        + id_to_stop(slow_zone["color"], slow_zone["to_id"])
-    )
+    return id_to_stop(slow_zone["color"], slow_zone["fr_id"]) + " → " + id_to_stop(slow_zone["color"], slow_zone["to_id"])
 
 
 def get_zone_date_length(sz):
@@ -47,9 +43,9 @@ def format_time(t):
     return datetime.strptime(t, "%Y-%m-%dT%H:%M:%SZ")
 
 
-def chunks(l, n):
-    for i in range(0, len(l), n):
-        yield l[i : i + n]
+def chunks(lines, n):
+    for i in range(0, len(lines), n):
+        yield lines[i: i + n]
 
 
 def generate_new_slow_zones_list(sz, date):
@@ -80,13 +76,7 @@ def generate_tweet_text_map(g_sz):
     output_map = []
     for i, line in enumerate(g_sz):
         output_map.append("")
-        output_map[i] += (
-            line_emoji_map[line[0]["color"]]
-            + " "
-            + line[0]["color"]
-            + " "
-            + "Line\n---------------------\n"
-        )
+        output_map[i] += line_emoji_map[line[0]["color"]] + " " + line[0]["color"] + " " + "Line\n---------------------\n"
         for slow_zone in line:
             output_map[i] += format_line_slow_zone(slow_zone) + "\n\n"
         output_map[i] += "\n\n"
@@ -100,6 +90,7 @@ def send_tweet_threads(tt_map, client):
         split_map = map.split("\n")
         chunked_map = list(chunks(split_map, 7))
         tweet = client.create_tweet(text="\n".join(list(chunked_map)[0]))
+        print(tweet)
         # for c in chunked_map[1:]:
         #     id = tweet.data["id"]
         #     if sum(1 for x in c if x != ""):
