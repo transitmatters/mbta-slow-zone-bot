@@ -2,9 +2,6 @@ import tweepy
 import requests
 from datetime import timedelta, date
 from utils import (
-    line_emoji_map,
-    format_line_slow_zone,
-    chunks,
     generate_grouped_slow_zone_list,
     generate_tweet_text_map,
     send_tweet_threads,
@@ -12,7 +9,6 @@ from utils import (
     send_new_slow_zone_tweets,
     send_fixed_slow_zone_tweets,
 )
-import operator
 import os
 
 
