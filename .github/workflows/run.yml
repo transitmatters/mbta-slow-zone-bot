@@ -22,4 +22,6 @@ jobs:
           python-version: 3.9
       - name: Run MBTA Slow Zone Bot
         run: |
-          python3 slowzones.py
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry install
+          poetry run python3 slowzones.py
