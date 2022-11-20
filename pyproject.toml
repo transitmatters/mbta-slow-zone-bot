@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mbta-slow-zone-bot"
-version = "0.1.0"
-description = "A Twitter bot to track MBTA slow zones"
+version = "0.2.0"
+description = "A Twitter/Mastodon bot to track MBTA slow zones"
 authors = ["TransitMatters Labs Team"]
 license = "MIT"
 
