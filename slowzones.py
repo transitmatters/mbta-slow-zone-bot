@@ -4,7 +4,6 @@ from datetime import timedelta, date
 from utils import (
     generate_grouped_slow_zone_list,
     generate_tweet_text_map,
-    send_tweet_threads,
     generate_new_slow_zones_list,
     send_new_slow_zone_tweets,
     send_fixed_slow_zone_tweets,
@@ -43,7 +42,6 @@ slowzones_started_yesterday = generate_new_slow_zones_list(
 )
 
 tweet_text_map = generate_tweet_text_map(grouped_sz_today)
-send_tweet_threads(tweet_text_map, client)
 
 send_new_slow_zone_tweets(slowzones_started_yesterday, client)
 
