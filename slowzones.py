@@ -54,9 +54,6 @@ slowzones_started_yesterday = generate_new_slow_zones_list(
 
 post_text_map = generate_post_text_map(grouped_sz_today)
 
-send_tweet_threads(post_text_map, twitter_client)
-send_toot_threads(post_text_map, mastodon_client)
-
 send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
 send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
 
