@@ -2,8 +2,8 @@ import tweepy
 import mastodon as mastodon
 import requests
 from datetime import timedelta, date
-from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots, send_toot_threads
-from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_tweet_threads
+from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots
+from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets
 from utils import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,
