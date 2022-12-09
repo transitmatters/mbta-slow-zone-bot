@@ -1,13 +1,14 @@
 [tool.poetry]
 name = "mbta-slow-zone-bot"
-version = "0.1.0"
-description = "A Twitter bot to track MBTA slow zones"
+version = "0.2.0"
+description = "A Twitter/Mastodon bot to track MBTA slow zones"
 authors = ["TransitMatters Labs Team"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.9"
 tweepy = "^4.12.1"
+"Mastodon.py" = "^1.6.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"

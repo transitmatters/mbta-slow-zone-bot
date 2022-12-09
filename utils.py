@@ -72,7 +72,7 @@ def generate_grouped_slow_zone_list(sz, date):
     return outputList
 
 
-def generate_tweet_text_map(g_sz):
+def generate_post_text_map(g_sz):
     output_map = []
     for i, line in enumerate(g_sz):
         output_map.append("")
@@ -85,33 +85,17 @@ def generate_tweet_text_map(g_sz):
     return filter(None, output_map)
 
 
-def send_tweet_threads(tt_map, client):
-    for map in tt_map:
-        split_map = map.split("\n")
-        chunked_map = list(chunks(split_map, 7))
-        tweet = client.create_tweet(text="\n".join(list(chunked_map)[0]))
-        print(tweet)
-        # for c in chunked_map[1:]:
-        #     id = tweet.data["id"]
-        #     if sum(1 for x in c if x != ""):
-        #         tweet = client.create_tweet(text="\n".join(c), in_reply_to_tweet_id=id)
+def format_new_slow_zone(z):
+    output = ""
+    output += "⚠️ New Slow Zone ⚠️\n"
+    output += "---------------------\n"
+    output += format_line_slow_zone(z)
+    return output
 
 
-def send_new_slow_zone_tweets(sz, client):
-    for line in sz:
-        for z in line:
-            output = ""
-            output += "⚠️ New Slow Zone ⚠️\n"
-            output += "---------------------\n"
-            output += format_line_slow_zone(z)
-            client.create_tweet(text=output)
-
-
-def send_fixed_slow_zone_tweets(sz, client):
-    for line in sz:
-        for z in line:
-            output = ""
-            output += "✅ Fixed Slow Zone 🎉\n"
-            output += "---------------------\n"
-            output += format_line_slow_zone(z)
-            client.create_tweet(text=output)
+def format_fixed_slow_zone(z):
+    output = ""
+    output += "✅ Fixed Slow Zone 🎉\n"
+    output += "---------------------\n"
+    output += format_line_slow_zone(z)
+    return output
