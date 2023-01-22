@@ -1,5 +1,6 @@
 from mastodon import Mastodon
 from utils import chunks, format_fixed_slow_zone, format_new_slow_zone
+import logging
 
 
 def send_toot_threads(tt_map, client: Mastodon):
@@ -8,7 +9,7 @@ def send_toot_threads(tt_map, client: Mastodon):
         chunked_map = list(chunks(split_map, 7))
         output = "\n".join(list(chunked_map)[0])
         toot = client.status_post(status=output)
-        print(toot)
+        logging.info(f"toot: {toot}")
 
 
 def send_new_slow_zone_toots(sz, client: Mastodon):

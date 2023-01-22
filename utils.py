@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import json
 import operator
 from itertools import groupby
+import logging
 
 line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠"}
 
@@ -54,6 +55,7 @@ def generate_new_slow_zones_list(sz, date):
         sz,
     )
     sorted_slow_zones = sorted(today_slow_zones, key=operator.itemgetter("color"))
+    logging.debug(f"sorted_slow_zones: {sorted_slow_zones}")
     outputList = []
     for i, g in groupby(sorted_slow_zones, key=operator.itemgetter("color")):
         outputList.append(list(g))
@@ -66,6 +68,7 @@ def generate_grouped_slow_zone_list(sz, date):
         sz,
     )
     sorted_slow_zones = sorted(today_slow_zones, key=operator.itemgetter("color"))
+    logging.debug(f"sorted_slow_zones: {sorted_slow_zones}")
     outputList = []
     for i, g in groupby(sorted_slow_zones, key=operator.itemgetter("color")):
         outputList.append(list(g))

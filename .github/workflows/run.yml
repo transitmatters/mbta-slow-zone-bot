@@ -23,8 +23,8 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: 3.9
-      - name: Run MBTA Slow Zone Bot
+      - name: Run MBTA Slow Zone Bot in Debug mode
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
-          poetry run python3 slowzones.py
+          poetry run python3 slowzones.py --debug

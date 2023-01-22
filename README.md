@@ -10,13 +10,15 @@ https://better.boston/@mbtaslowzonebot
 
 ## How to Run
 
-Make sure you set the proper environmental variables then you can use the following commands to run the bot (you can use the `--dry-run` flag to run the both without posting to Twitter/Mastodon)
+Make sure you set the proper environmental variables then you can use the following commands to run the bot
 
 ```bash
 $ curl -sSL https://install.python-poetry.org | python3 -
 $ poetry install
 $ poetry run python3 slowzones.py
 ```
+
+Note you can use the `--dry-run` flag to run the both without posting to Twitter/Mastodon, and the `--debug` flag for additional logging
 
 ## Linting
 
