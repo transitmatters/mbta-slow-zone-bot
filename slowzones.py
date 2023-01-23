@@ -22,6 +22,7 @@ MASTODON_CLIENT_KEY = os.environ.get("MASTODON_CLIENT_KEY")
 MASTODON_CLIENT_SECRET = os.environ.get("MASTODON_CLIENT_SECRET")
 MASTODON_ACCESS_TOKEN = os.environ.get("MASTODON_ACCESS_TOKEN")
 DRY_RUN = False
+DEBUG = False
 
 twitter_client = api = tweepy.Client(
     bearer_token=os.environ.get("BEARER_TOKEN"),
@@ -46,6 +47,7 @@ def main():
     )
 
     grouped_sz_today = generate_grouped_slow_zone_list(slow_zones.json(), date.today())
+    logging.debug(f"grouped_sz_today: {grouped_sz_today}")
 
     slowzones_ended_yesterday = generate_grouped_slow_zone_list(
         # Slow zones are 1 day behind so we want to check if zones ended two days ago
@@ -60,7 +62,7 @@ def main():
     logging.info(f"slowzones_started_yesterday: {slowzones_started_yesterday}")
 
     post_text_map = generate_post_text_map(grouped_sz_today)
-    logging.info(f"post_text_map: {post_text_map}")
+    logging.debug(f"post_text_map: {post_text_map}")
 
     if not DRY_RUN:
         send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
@@ -78,11 +80,16 @@ if __name__ == '__main__':
     # argument parsing
     parser = argparse.ArgumentParser(description='MBTA Slow Zone Bot')
     parser.add_argument("--dry-run", default=False, action='store_true', help='Runs bot without posting')
+    parser.add_argument("--debug", default=False, action='store_true', help='Runs bot with debug logging')
     args = parser.parse_args()
     DRY_RUN = args.dry_run
+    DEBUG = args.debug
 
     # set logging config
-    logging.basicConfig(level=logging.INFO)
+    if DEBUG:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)        
 
     # begin main program execution
     main()
