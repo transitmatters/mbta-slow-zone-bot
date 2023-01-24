@@ -30,10 +30,10 @@ MASTODON_CLIENT_SECRET = os.environ.get("MASTODON_CLIENT_SECRET")
 MASTODON_ACCESS_TOKEN = os.environ.get("MASTODON_ACCESS_TOKEN")
 
 mastodon_client = mastodon.Mastodon(
-    api_base_url='https://better.boston',
+    api_base_url="https://better.boston",
     client_id=MASTODON_CLIENT_KEY,
     client_secret=MASTODON_CLIENT_SECRET,
-    access_token=MASTODON_ACCESS_TOKEN
+    access_token=MASTODON_ACCESS_TOKEN,
 )
 
 slow_zones = requests.get(
@@ -49,7 +49,9 @@ slowzones_ended_yesterday = generate_grouped_slow_zone_list(
 )
 
 slowzones_started_yesterday = generate_new_slow_zones_list(
-    slow_zones.json(), date.today()
+    # Slow zones take 4 days to be recognized
+    slow_zones.json(),
+    date.today() - timedelta(days=3),
 )
 
 post_text_map = generate_post_text_map(grouped_sz_today)
