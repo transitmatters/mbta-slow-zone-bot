@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.9"
 tweepy = "^4.12.1"
 "Mastodon.py" = "^1.6.3"
+argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
