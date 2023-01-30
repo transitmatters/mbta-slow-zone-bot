@@ -6,7 +6,6 @@ import logging
 
 line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠"}
 
-
 with open("stations.json", "r") as myfile:
     data = myfile.read()
 
