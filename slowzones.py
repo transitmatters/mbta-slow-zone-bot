@@ -33,10 +33,10 @@ twitter_client = api = tweepy.Client(
 )
 
 mastodon_client = mastodon.Mastodon(
-    api_base_url='https://better.boston',
+    api_base_url="https://better.boston",
     client_id=MASTODON_CLIENT_KEY,
     client_secret=MASTODON_CLIENT_SECRET,
-    access_token=MASTODON_ACCESS_TOKEN
+    access_token=MASTODON_ACCESS_TOKEN,
 )
 
 
@@ -57,7 +57,9 @@ def main():
     logging.info(f"slowzones_ended_yesterday: {slowzones_ended_yesterday}")
 
     slowzones_started_yesterday = generate_new_slow_zones_list(
-        slow_zones.json(), date.today()
+        # Slow zones take 4 days to be recognized
+        slow_zones.json(),
+        date.today() - timedelta(days=3),
     )
     logging.info(f"slowzones_started_yesterday: {slowzones_started_yesterday}")
 
@@ -75,12 +77,19 @@ def main():
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # argument parsing
-    parser = argparse.ArgumentParser(description='MBTA Slow Zone Bot')
-    parser.add_argument("--dry-run", default=False, action='store_true', help='Runs bot without posting')
-    parser.add_argument("--debug", default=False, action='store_true', help='Runs bot with debug logging')
+    parser = argparse.ArgumentParser(description="MBTA Slow Zone Bot")
+    parser.add_argument(
+        "--dry-run", default=False, action="store_true", help="Runs bot without posting"
+    )
+    parser.add_argument(
+        "--debug",
+        default=False,
+        action="store_true",
+        help="Runs bot with debug logging",
+    )
     args = parser.parse_args()
     DRY_RUN = args.dry_run
     DEBUG = args.debug
@@ -89,7 +98,7 @@ if __name__ == '__main__':
     if DEBUG:
         logging.basicConfig(level=logging.DEBUG)
     else:
-        logging.basicConfig(level=logging.INFO)        
+        logging.basicConfig(level=logging.INFO)
 
     # begin main program execution
     main()

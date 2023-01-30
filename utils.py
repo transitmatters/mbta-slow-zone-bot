@@ -6,7 +6,6 @@ import logging
 
 line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠"}
 
-
 with open("stations.json", "r") as myfile:
     data = myfile.read()
 
@@ -20,13 +19,17 @@ def id_to_stop(line, id):
 
 
 def get_stop_pair(slow_zone):
-    return id_to_stop(slow_zone["color"], slow_zone["fr_id"]) + " → " + id_to_stop(slow_zone["color"], slow_zone["to_id"])
+    return (
+        id_to_stop(slow_zone["color"], slow_zone["fr_id"])
+        + " → "
+        + id_to_stop(slow_zone["color"], slow_zone["to_id"])
+    )
 
 
 def get_zone_date_length(sz):
     d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%SZ")
     d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%SZ")
-    return abs((d2 - d1).days)
+    return abs((d2 - d1).days) + 1
 
 
 def format_line_slow_zone(slow_zone):
@@ -46,7 +49,7 @@ def format_time(t):
 
 def chunks(lines, n):
     for i in range(0, len(lines), n):
-        yield lines[i: i + n]
+        yield lines[i : i + n]
 
 
 def generate_new_slow_zones_list(sz, date):
@@ -79,7 +82,13 @@ def generate_post_text_map(g_sz):
     output_map = []
     for i, line in enumerate(g_sz):
         output_map.append("")
-        output_map[i] += line_emoji_map[line[0]["color"]] + " " + line[0]["color"] + " " + "Line\n---------------------\n"
+        output_map[i] += (
+            line_emoji_map[line[0]["color"]]
+            + " "
+            + line[0]["color"]
+            + " "
+            + "Line\n---------------------\n"
+        )
         for slow_zone in line:
             output_map[i] += format_line_slow_zone(slow_zone) + "\n\n"
         output_map[i] += "\n\n"
