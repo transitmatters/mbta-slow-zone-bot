@@ -20,7 +20,9 @@ def id_to_stop(line, id):
 
 def get_stop_pair(slow_zone):
     return (
-        id_to_stop(slow_zone["color"], slow_zone["fr_id"])
+        line_emoji_map[slow_zone["color"]]
+        + " "
+        + id_to_stop(slow_zone["color"], slow_zone["fr_id"])
         + " → "
         + id_to_stop(slow_zone["color"], slow_zone["to_id"])
     )
@@ -36,6 +38,16 @@ def format_line_slow_zone(slow_zone):
     ret = ""
     ret += get_stop_pair(slow_zone) + "\n"
     ret += "⏳ " + str(get_zone_date_length(slow_zone)) + " days "
+    ret += "📈  " + str(round(slow_zone["delay"], 1)) + "s "
+    ret += (
+        "⬆️  " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
+    )
+    return ret
+
+
+def format_new_line_slow_zone(slow_zone):
+    ret = ""
+    ret += get_stop_pair(slow_zone) + "\n"
     ret += "📈  " + str(round(slow_zone["delay"], 1)) + "s "
     ret += (
         "⬆️  " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
@@ -101,7 +113,7 @@ def format_new_slow_zone(z):
     output = ""
     output += "⚠️ New Slow Zone ⚠️\n"
     output += "---------------------\n"
-    output += format_line_slow_zone(z)
+    output += format_new_line_slow_zone(z)
     return output
 
 
