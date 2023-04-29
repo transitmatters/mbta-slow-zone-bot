@@ -6,6 +6,10 @@ import argparse
 from datetime import timedelta, date
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets
+from domains.slack import (
+    send_fixed_slow_zone_tweets_slack,
+    send_new_slow_zone_tweets_slack,
+)
 from utils import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,
@@ -69,9 +73,11 @@ def main():
     if not DRY_RUN:
         send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
         send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
+        send_new_slow_zone_tweets_slack(slowzones_started_yesterday)
 
         send_fixed_slow_zone_tweets(slowzones_ended_yesterday, twitter_client)
         send_fixed_slow_zone_toots(slowzones_ended_yesterday, mastodon_client)
+        send_fixed_slow_zone_tweets_slack(slowzones_ended_yesterday)
 
     # exit if no issues
     sys.exit(0)
