@@ -12,7 +12,7 @@ def send_new_slow_zone_tweets_slack(
 ):
     for line in sz:
         for z in line:
-            output = format_new_slow_zone(z) + "/n"
+            output = format_new_slow_zone(z)
             requests.post(
                 SLOW_ZONE_BOT_SLACK_WEBHOOK_URL,
                 json={"text": output},
@@ -22,7 +22,7 @@ def send_new_slow_zone_tweets_slack(
 def send_fixed_slow_zone_tweets_slack(sz):
     for line in sz:
         for z in line:
-            output = format_fixed_slow_zone(z) + "/n"
+            output = format_fixed_slow_zone(z)
             requests.post(
                 SLOW_ZONE_BOT_SLACK_WEBHOOK_URL,
                 json={"text": output},
