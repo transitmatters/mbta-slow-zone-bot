@@ -37,21 +37,17 @@ def get_zone_date_length(sz):
 def format_line_slow_zone(slow_zone):
     ret = ""
     ret += get_stop_pair(slow_zone) + "\n"
-    ret += "⏳ " + str(get_zone_date_length(slow_zone)) + " days "
-    ret += "📈  " + str(round(slow_zone["delay"], 1)) + "s "
-    ret += (
-        "⬆️  " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
-    )
+    ret += "🗓️ " + str(get_zone_date_length(slow_zone)) + " days "
+    ret += "⏳ " + str(round(slow_zone["delay"], 1)) + "s "
+    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
     return ret
 
 
 def format_new_line_slow_zone(slow_zone):
     ret = ""
     ret += get_stop_pair(slow_zone) + "\n"
-    ret += "📈  " + str(round(slow_zone["delay"], 1)) + "s "
-    ret += (
-        "⬆️  " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
-    )
+    ret += "⏳ " + str(round(slow_zone["delay"], 1)) + "s "
+    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
     return ret
 
 
