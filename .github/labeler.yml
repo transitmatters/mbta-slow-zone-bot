@@ -1,0 +1,13 @@
+ci/cd:
+- .github/**/*
+
+dependencies:
+- poetry.lock
+
+backend:
+- '**/*.py'
+- .flake8
+
+documentation:
+- README.md
+- LICENSE
