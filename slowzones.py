@@ -6,10 +6,7 @@ import argparse
 from datetime import timedelta, date
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets
-from domains.slack import (
-    send_fixed_slow_zone_tweets_slack,
-    send_new_slow_zone_tweets_slack,
-)
+from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks
 from utils import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,

@@ -6,10 +6,8 @@ import logging
 
 line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠"}
 
-with open("stations.json", "r") as myfile:
-    data = myfile.read()
-
-stations = json.loads(data)
+with open("stations.json", "r") as data_file:
+    stations = json.load(data_file)
 
 
 def id_to_stop(line, id):
@@ -21,16 +19,16 @@ def id_to_stop(line, id):
             return s["stop_name"]
 
 
-def get_stop_pair(slow_zone):
+def get_stop_pair(sz):
     ''' takes in a slow zone
         returns a formatted string with the line color emoji and two stop names
     '''
     return (
-        line_emoji_map[slow_zone["color"]]
+        line_emoji_map[sz["color"]]
         + " "
-        + id_to_stop(slow_zone["color"], slow_zone["fr_id"])
+        + id_to_stop(sz["color"], sz["fr_id"])
         + " → "
-        + id_to_stop(slow_zone["color"], slow_zone["to_id"])
+        + id_to_stop(sz["color"], sz["to_id"])
     )
 
 
@@ -43,20 +41,20 @@ def get_zone_date_length(sz):
     return abs((d2 - d1).days) + 1
 
 
-def format_line_slow_zone(slow_zone):
+def format_line_slow_zone(sz):
     ret = ""
-    ret += get_stop_pair(slow_zone) + "\n"
-    ret += "🗓️ " + str(get_zone_date_length(slow_zone)) + " days "
-    ret += "⏳ " + str(round(slow_zone["delay"], 1)) + "s "
-    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%\n"
+    ret += get_stop_pair(sz) + "\n"
+    ret += "🗓️ " + str(get_zone_date_length(sz)) + " days "
+    ret += "⏳ " + str(round(sz["delay"], 1)) + "s "
+    ret += "⬆️ " + str(round(sz["delay"] / sz["baseline"] * 100, 2)) + "%\n"
     return ret
 
 
-def format_new_line_slow_zone(slow_zone):
+def format_new_line_slow_zone(sz):
     ret = ""
-    ret += get_stop_pair(slow_zone) + "\n"
-    ret += "⏳ " + str(round(slow_zone["delay"], 1)) + "s "
-    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%\n"
+    ret += get_stop_pair(sz) + "\n"
+    ret += "⏳ " + str(round(sz["delay"], 1)) + "s "
+    ret += "⬆️ " + str(round(sz["delay"] / sz["baseline"] * 100, 2)) + "%\n"
     return ret
 
 
@@ -120,23 +118,23 @@ def generate_data_dashboard_link(sz):
     date1 = sz['start'].split('T')[0]
     date2 = sz['end'].split('T')[0]
     link = f"https://dashboard.transitmatters.org/rapidtransit?config={color},{stop1},{stop2},{date1},{date2}"
-    logging.debug(f"Generated Dash Dashboard link: {link}")
+    logging.debug(f"Generated Data Dashboard link: {link}")
     return link
 
 
-def format_new_slow_zone(z):
+def format_new_slow_zone(sz):
     output = ""
     output += "⚠️ New Slow Zone ⚠️\n"
     output += "---------------------\n"
-    output += format_new_line_slow_zone(z)
-    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(z)}"
+    output += format_new_line_slow_zone(sz)
+    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(sz)}"
     return output
 
 
-def format_fixed_slow_zone(z):
+def format_fixed_slow_zone(sz):
     output = ""
     output += "✅ Fixed Slow Zone 🎉\n"
     output += "---------------------\n"
-    output += format_line_slow_zone(z)
-    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(z)}"
+    output += format_line_slow_zone(sz)
+    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(sz)}"
     return output
