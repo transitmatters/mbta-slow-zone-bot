@@ -13,12 +13,18 @@ stations = json.loads(data)
 
 
 def id_to_stop(line, id):
+    ''' takes in a line and id
+        returns the name of the stop the id is present in, if it exists
+    '''
     for s in stations[line]["stations"]:
         if str(id) in s["stops"]["0"] or str(id) in s["stops"]["1"]:
             return s["stop_name"]
 
 
 def get_stop_pair(slow_zone):
+    ''' takes in a slow zone
+        returns a formatted string with the line color emoji and two stop names
+    '''
     return (
         line_emoji_map[slow_zone["color"]]
         + " "
@@ -29,8 +35,11 @@ def get_stop_pair(slow_zone):
 
 
 def get_zone_date_length(sz):
-    d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S")
-    d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%S")
+    ''' takes in a slow zone
+        returns the number of days the slow zone was active
+    '''
+    d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%SZ")
+    d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%SZ")
     return abs((d2 - d1).days) + 1
 
 
@@ -39,7 +48,7 @@ def format_line_slow_zone(slow_zone):
     ret += get_stop_pair(slow_zone) + "\n"
     ret += "🗓️ " + str(get_zone_date_length(slow_zone)) + " days "
     ret += "⏳ " + str(round(slow_zone["delay"], 1)) + "s "
-    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
+    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%\n"
     return ret
 
 
@@ -47,7 +56,7 @@ def format_new_line_slow_zone(slow_zone):
     ret = ""
     ret += get_stop_pair(slow_zone) + "\n"
     ret += "⏳ " + str(round(slow_zone["delay"], 1)) + "s "
-    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%"
+    ret += "⬆️ " + str(round(slow_zone["delay"] / slow_zone["baseline"] * 100, 2)) + "%\n"
     return ret
 
 
@@ -101,11 +110,26 @@ def generate_post_text_map(g_sz):
     return filter(None, output_map)
 
 
+def generate_data_dashboard_link(sz):
+    ''' takes in a slow zone
+        returns a data dashboard link to said slow zone
+    '''
+    color = sz['color']
+    stop1 = sz['fr_id']
+    stop2 = sz['to_id']
+    date1 = sz['start'].split('T')[0]
+    date2 = sz['end'].split('T')[0]
+    link = f"https://dashboard.transitmatters.org/rapidtransit?config={color},{stop1},{stop2},{date1},{date2}"
+    logging.debug(f"Generated Dash Dashboard link: {link}")
+    return link
+
+
 def format_new_slow_zone(z):
     output = ""
     output += "⚠️ New Slow Zone ⚠️\n"
     output += "---------------------\n"
     output += format_new_line_slow_zone(z)
+    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(z)}"
     return output
 
 
@@ -114,4 +138,5 @@ def format_fixed_slow_zone(z):
     output += "✅ Fixed Slow Zone 🎉\n"
     output += "---------------------\n"
     output += format_line_slow_zone(z)
+    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(z)}"
     return output
