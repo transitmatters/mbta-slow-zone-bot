@@ -115,9 +115,9 @@ def generate_data_dashboard_link(sz):
     color = sz['color']
     stop1 = sz['fr_id']
     stop2 = sz['to_id']
-    date1 = sz['start'].split('T')[0]
-    date2 = sz['end'].split('T')[0]
-    link = f"https://dashboard.transitmatters.org/rapidtransit?config={color},{stop1},{stop2},{date1},{date2}"
+    start = (datetime.strptime(sz['start'], '%Y-%m-%dT%H:%M:%SZ') - timedelta(days=14)).strftime('%Y-%m-%d')
+    end = sz['end'].split('T')[0]
+    link = f"https://dashboard.transitmatters.org/rapidtransit?config={color},{stop1},{stop2},{start},{end}"
     logging.debug(f"Generated Data Dashboard link: {link}")
     return link
 
