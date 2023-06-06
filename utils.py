@@ -29,8 +29,8 @@ def get_stop_pair(slow_zone):
 
 
 def get_zone_date_length(sz):
-    d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%SZ")
-    d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%SZ")
+    d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S")
+    d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%S")
     return abs((d2 - d1).days) + 1
 
 
@@ -52,7 +52,7 @@ def format_new_line_slow_zone(slow_zone):
 
 
 def format_time(t):
-    return datetime.strptime(t, "%Y-%m-%dT%H:%M:%SZ")
+    return datetime.strptime(t, "%Y-%m-%dT%H:%M:%S")
 
 
 def chunks(lines, n):
