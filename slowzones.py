@@ -76,8 +76,8 @@ def main():
 
         # try slacking
         try:
-            send_new_slow_zone_tweets_slack(slowzones_started_yesterday)
-            send_fixed_slow_zone_tweets_slack(slowzones_ended_yesterday)
+            send_new_slow_zone_slacks(slowzones_started_yesterday)
+            send_fixed_slow_zone_slacks(slowzones_ended_yesterday)
         except Exception as e:
             logging.error(f"Failed to send Slack messages: {e}")
         else:
