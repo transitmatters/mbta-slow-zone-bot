@@ -79,7 +79,7 @@ def main():
         except Exception as e:
             logging.error(f"Failed to tweet: {e}")
         else:
-            logging.info(f"Tweeted successfully")
+            logging.info("Tweeted successfully")
 
         # try slacking
         try:
@@ -88,7 +88,7 @@ def main():
         except Exception as e:
             logging.error(f"Failed to send Slack messages: {e}")
         else:
-            logging.info(f"Sent Slack messages successfully")
+            logging.info("Sent Slack messages successfully")
 
         # try tooting
         try:
@@ -97,8 +97,7 @@ def main():
         except Exception as e:
             logging.error(f"Failed to toot: {e}")
         else:
-            logging.info(f"Tooted successfully")
-
+            logging.info("Tooted successfully")
 
     # exit if no issues
     sys.exit(0)
