@@ -71,13 +71,34 @@ def main():
     logging.debug(f"post_text_map: {post_text_map}")
 
     if not DRY_RUN:
-        send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
-        send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
-        send_new_slow_zone_tweets_slack(slowzones_started_yesterday)
 
-        send_fixed_slow_zone_tweets(slowzones_ended_yesterday, twitter_client)
-        send_fixed_slow_zone_toots(slowzones_ended_yesterday, mastodon_client)
-        send_fixed_slow_zone_tweets_slack(slowzones_ended_yesterday)
+        # try tweeting
+        try:
+            send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
+            send_fixed_slow_zone_tweets(slowzones_ended_yesterday, twitter_client)
+        except Exception as e:
+            logging.error(f"Failed to tweet: {e}")
+        else:
+            logging.info(f"Tweeted successfully")
+
+        # try slacking
+        try:
+            send_new_slow_zone_tweets_slack(slowzones_started_yesterday)
+            send_fixed_slow_zone_tweets_slack(slowzones_ended_yesterday)
+        except Exception as e:
+            logging.error(f"Failed to send Slack messages: {e}")
+        else:
+            logging.info(f"Sent Slack messages successfully")
+
+        # try tooting
+        try:
+            send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
+            send_fixed_slow_zone_toots(slowzones_ended_yesterday, mastodon_client)
+        except Exception as e:
+            logging.error(f"Failed to toot: {e}")
+        else:
+            logging.info(f"Tooted successfully")
+
 
     # exit if no issues
     sys.exit(0)
