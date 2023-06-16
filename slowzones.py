@@ -45,10 +45,7 @@ mastodon_client = mastodon.Mastodon(
 
 
 def main():
-
-    slow_zones = requests.get(
-        "https://dashboard.transitmatters.org/static/slowzones/all_slow.json"
-    )
+    slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
     grouped_sz_today = generate_grouped_slow_zone_list(slow_zones.json(), date.today())
     logging.debug(f"grouped_sz_today: {grouped_sz_today}")
@@ -71,7 +68,6 @@ def main():
     logging.debug(f"post_text_map: {post_text_map}")
 
     if not DRY_RUN:
-
         # try tweeting
         try:
             send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
@@ -104,12 +100,9 @@ def main():
 
 
 if __name__ == "__main__":
-
     # argument parsing
     parser = argparse.ArgumentParser(description="MBTA Slow Zone Bot")
-    parser.add_argument(
-        "--dry-run", default=False, action="store_true", help="Runs bot without posting"
-    )
+    parser.add_argument("--dry-run", default=False, action="store_true", help="Runs bot without posting")
     parser.add_argument(
         "--debug",
         default=False,
