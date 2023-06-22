@@ -1,18 +1,24 @@
 [tool.poetry]
 name = "mbta-slow-zone-bot"
 version = "0.2.0"
-description = "A Twitter/Mastodon bot to track MBTA slow zones"
+description = "A Twitter/Mastodon/Slack bot to track MBTA slow zones"
 authors = ["TransitMatters Labs Team"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-tweepy = "^4.12.1"
-"Mastodon.py" = "^1.6.3"
+python = "^3.9, <3.11"
+tweepy = "^4.14.0"
+"Mastodon.py" = "^1.8.1"
 argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^4.0.1"
+pip = ">=23.0"
+flake8 = "^6.0.0"
+black = "^23.3.0"
+
+[tool.black]
+line-length = 120
+target-version = ['py39', 'py310']
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

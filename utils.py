@@ -91,11 +91,7 @@ def generate_post_text_map(g_sz):
     for i, line in enumerate(g_sz):
         output_map.append("")
         output_map[i] += (
-            line_emoji_map[line[0]["color"]]
-            + " "
-            + line[0]["color"]
-            + " "
-            + "Line\n---------------------\n"
+            line_emoji_map[line[0]["color"]] + " " + line[0]["color"] + " " + "Line\n---------------------\n"
         )
         for slow_zone in line:
             output_map[i] += format_line_slow_zone(slow_zone) + "\n\n"

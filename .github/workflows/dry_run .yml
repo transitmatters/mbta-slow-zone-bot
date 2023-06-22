@@ -5,6 +5,9 @@ on: pull_request
 jobs:
   bot:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10']
     env:
       ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
       ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
@@ -18,10 +21,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Set up Python 3.9
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
-          python-version: 3.9
+          python-version: ${{ matrix.python-version }}
       - name: Run MBTA Slow Zone Bot in Dry Run mode
         run: |
           curl -sSL https://install.python-poetry.org | python3 -

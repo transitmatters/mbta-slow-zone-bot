@@ -9,15 +9,19 @@ on:
 jobs:
   python:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10']
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Set up Python 3.9
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
-          python-version: 3.9
-      - name: Lint backend code with Flake8
+          python-version: ${{ matrix.python-version }}
+      - name: Lint and check formatting of backend code
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
           poetry run flake8
+          poetry run black --check .
