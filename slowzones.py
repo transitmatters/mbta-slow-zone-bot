@@ -99,18 +99,8 @@ def main():
 if __name__ == "__main__":
     # argument parsing
     parser = argparse.ArgumentParser(description="MBTA Slow Zone Bot")
-    parser.add_argument(
-        "--dry-run",
-        default=False,
-        action="store_true",
-        help="Runs bot without posting"
-    )
-    parser.add_argument(
-        "--debug",
-        default=False,
-        action="store_true",
-        help="Runs bot with debug logging"
-    )
+    parser.add_argument("--dry-run", default=False, action="store_true", help="Runs bot without posting")
+    parser.add_argument("--debug", default=False, action="store_true", help="Runs bot with debug logging")
     args = parser.parse_args()
     DRY_RUN = args.dry_run
     DEBUG = args.debug

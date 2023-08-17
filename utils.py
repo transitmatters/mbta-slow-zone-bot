@@ -11,18 +11,18 @@ with open("stations.json", "r") as data_file:
 
 
 def id_to_stop(line, id):
-    ''' takes in a line and id
-        returns the name of the stop the id is present in, if it exists
-    '''
+    """takes in a line and id
+    returns the name of the stop the id is present in, if it exists
+    """
     for s in stations[line]["stations"]:
         if str(id) in s["stops"]["0"] or str(id) in s["stops"]["1"]:
             return s["stop_name"]
 
 
 def get_stop_pair(sz):
-    ''' takes in a slow zone
-        returns a formatted string with the line color emoji and two stop names
-    '''
+    """takes in a slow zone
+    returns a formatted string with the line color emoji and two stop names
+    """
     return (
         line_emoji_map[sz["color"]]
         + " "
@@ -33,9 +33,9 @@ def get_stop_pair(sz):
 
 
 def get_zone_date_length(sz):
-    ''' takes in a slow zone
-        returns the number of days the slow zone was active
-    '''
+    """takes in a slow zone
+    returns the number of days the slow zone was active
+    """
     d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S")
     d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%S")
     return abs((d2 - d1).days) + 1
@@ -109,14 +109,14 @@ def generate_post_text_map(g_sz):
 
 
 def generate_data_dashboard_link(sz):
-    ''' takes in a slow zone
-        returns a data dashboard link to said slow zone
-    '''
-    color = sz['color']
-    stop1 = sz['fr_id']
-    stop2 = sz['to_id']
-    start = (datetime.strptime(sz['start'], '%Y-%m-%dT%H:%M:%S') - timedelta(days=14)).strftime('%Y-%m-%d')
-    end = sz['end'].split('T')[0]
+    """takes in a slow zone
+    returns a data dashboard link to said slow zone
+    """
+    color = sz["color"]
+    stop1 = sz["fr_id"]
+    stop2 = sz["to_id"]
+    start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S") - timedelta(days=14)).strftime("%Y-%m-%d")
+    end = sz["end"].split("T")[0]
     link = f"https://dashboard.transitmatters.org/{color}/trips/multi/?from={stop1}&to={stop2}&startDate={start}&endDate={end}"
     logging.debug(f"Generated Data Dashboard link: {link}")
     return link
