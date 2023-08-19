@@ -6,10 +6,7 @@ import argparse
 from datetime import timedelta, date
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets
-from domains.slack import (
-    send_fixed_slow_zone_tweets_slack,
-    send_new_slow_zone_tweets_slack,
-)
+from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks
 from utils import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,
@@ -79,8 +76,8 @@ def main():
 
         # try slacking
         try:
-            send_new_slow_zone_tweets_slack(slowzones_started_yesterday)
-            send_fixed_slow_zone_tweets_slack(slowzones_ended_yesterday)
+            send_new_slow_zone_slacks(slowzones_started_yesterday)
+            send_fixed_slow_zone_slacks(slowzones_ended_yesterday)
         except Exception as e:
             logging.error(f"Failed to send Slack messages: {e}")
         else:
@@ -103,12 +100,7 @@ if __name__ == "__main__":
     # argument parsing
     parser = argparse.ArgumentParser(description="MBTA Slow Zone Bot")
     parser.add_argument("--dry-run", default=False, action="store_true", help="Runs bot without posting")
-    parser.add_argument(
-        "--debug",
-        default=False,
-        action="store_true",
-        help="Runs bot with debug logging",
-    )
+    parser.add_argument("--debug", default=False, action="store_true", help="Runs bot with debug logging")
     args = parser.parse_args()
     DRY_RUN = args.dry_run
     DEBUG = args.debug
