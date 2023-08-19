@@ -112,12 +112,12 @@ def generate_data_dashboard_link(sz):
     """takes in a slow zone
     returns a data dashboard link to said slow zone
     """
-    color = sz["color"]
+    color = sz["color"].lower()
     stop1 = sz["fr_id"]
     stop2 = sz["to_id"]
     start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S") - timedelta(days=14)).strftime("%Y-%m-%d")
     end = sz["end"].split("T")[0]
-    link = f"https://dashboard.transitmatters.org/{color.lower()}/trips/multi/?from={stop1}&to={stop2}&startDate={start}&endDate={end}"
+    link = f"https://dashboard.transitmatters.org/{color}/trips/multi/?from={stop1}&to={stop2}&startDate={start}&endDate={end}"
     logging.debug(f"Generated Data Dashboard link: {link}")
     return link
 
