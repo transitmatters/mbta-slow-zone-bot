@@ -112,7 +112,7 @@ def generate_data_dashboard_link(sz):
     """takes in a slow zone
     returns a data dashboard link to said slow zone
     """
-    color = sz["color"]
+    color = sz["color"].lower()
     stop1 = sz["fr_id"]
     stop2 = sz["to_id"]
     start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S") - timedelta(days=14)).strftime("%Y-%m-%d")
