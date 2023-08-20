@@ -1,5 +1,5 @@
 from mastodon import Mastodon
-from utils import chunks, format_fixed_slow_zone, format_new_slow_zone
+from utils import chunks, format_fixed_slow_zone, format_new_slow_zone, format_updated_slow_zone
 import logging
 
 
@@ -23,4 +23,11 @@ def send_fixed_slow_zone_toots(sz, client: Mastodon):
     for line in sz:
         for z in line:
             output = format_fixed_slow_zone(z)
+            client.status_post(status=output)
+
+
+def send_updated_slow_zone_toots(sz, client: Mastodon):
+    for line in sz:
+        for z in line:
+            output = format_updated_slow_zone(z)
             client.status_post(status=output)
