@@ -62,7 +62,7 @@ def format_percent_change(latest, previous):
     ret = ""
     percent_change = (latest - previous) / previous * 100.0
     ret += "⬆️ " if percent_change < 0 else "⬇️ "
-    ret += " " + str(abs(round(percent_change, 2))) + " %\n"
+    ret += str(abs(round(percent_change, 2))) + " %\n"
     return ret
 
 
@@ -161,7 +161,7 @@ def generate_data_dashboard_link(sz):
     color = sz["color"]
     stop1 = sz["fr_id"]
     stop2 = sz["to_id"]
-    start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S") - timedelta(days=14)).strftime("%Y-%m-%d")
+    start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%SZ") - timedelta(days=14)).strftime("%Y-%m-%d")
     end = sz["end"].split("T")[0]
     link = f"https://dashboard.transitmatters.org/{color}/trips/multi/?from={stop1}&to={stop2}&startDate={start}&endDate={end}"
     logging.debug(f"Generated Data Dashboard link: {link}")
@@ -172,7 +172,7 @@ def format_new_slow_zone(sz):
     output = ""
     output += "⚠️ New Slow Zone ⚠️\n"
     output += "---------------------\n"
-    output += format_new_line_slow_zone(sz)
+    output += format_new_line_slow_zone(sz) + "\n"
     output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(sz)}"
     return output
 
@@ -181,7 +181,7 @@ def format_fixed_slow_zone(sz):
     output = ""
     output += "✅ Fixed Slow Zone 🎉\n"
     output += "---------------------\n"
-    output += format_line_slow_zone(sz)
+    output += format_line_slow_zone(sz) + "\n"
     output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(sz)}"
     return output
 
@@ -190,6 +190,6 @@ def format_updated_slow_zone(sz):
     output = ""
     output += "🚨 Updated Slow Zone \n"
     output += "---------------------\n"
-    output += format_updated_slow_zone_details(sz)
-    # output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(sz)}"
+    output += format_updated_slow_zone_details(sz) + "\n"
+    output += f"Check it out in our Data Dashboard: {generate_data_dashboard_link(sz)}"
     return output

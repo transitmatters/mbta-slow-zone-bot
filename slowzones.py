@@ -46,7 +46,7 @@ def main():
     slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
     grouped_sz_today = generate_grouped_slow_zone_list(slow_zones.json(), date.today())
-    # logging.debug(f"grouped_sz_today: {grouped_sz_today}")
+    logging.debug(f"grouped_sz_today: {grouped_sz_today}")
 
     slowzones_changed_yesterday = generate_updated_slow_zones(slow_zones.json(), date.today() - timedelta(days=1))
     logging.info(f"slowzones_changed_yesterday: {slowzones_changed_yesterday}")
