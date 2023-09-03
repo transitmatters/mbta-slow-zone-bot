@@ -36,8 +36,8 @@ def get_zone_date_length(sz):
     """takes in a slow zone
     returns the number of days the slow zone was active
     """
-    d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%SZ")
-    d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%SZ")
+    d1 = datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S")
+    d2 = datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%S")
     return abs((d2 - d1).days) + 1
 
 
@@ -76,7 +76,7 @@ def format_updated_slow_zone_details(sz):
 
 
 def format_time(t):
-    return datetime.strptime(t, "%Y-%m-%dT%H:%M:%SZ")
+    return datetime.strptime(t, "%Y-%m-%dT%H:%M:%S")
 
 
 def chunks(lines, n):
@@ -161,7 +161,7 @@ def generate_data_dashboard_link(sz):
     color = sz["color"].lower()
     stop1 = sz["fr_id"]
     stop2 = sz["to_id"]
-    start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%SZ") - timedelta(days=14)).strftime("%Y-%m-%d")
+    start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S") - timedelta(days=14)).strftime("%Y-%m-%d")
     end = sz["end"].split("T")[0]
     link = f"https://dashboard.transitmatters.org/{color}/trips/multi/?from={stop1}&to={stop2}&startDate={start}&endDate={end}"
     logging.debug(f"Generated Data Dashboard link: {link}")
