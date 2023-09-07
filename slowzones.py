@@ -7,6 +7,7 @@ from datetime import timedelta, date
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots, send_updated_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_updated_slow_zone_tweets
 from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks, send_updated_slow_zone_slacks
+from domains.dry import send_fixed_slow_zone_dry, send_new_slow_zone_dry, send_updated_slow_zone_dry
 from utils import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,
@@ -68,7 +69,15 @@ def main():
     post_text_map = generate_post_text_map(grouped_sz_today)
     logging.debug(f"post_text_map: {post_text_map}")
 
-    if not DRY_RUN:
+    # if a dry run, generate slow zone text but do not post
+    if DRY_RUN:
+        send_new_slow_zone_dry(slowzones_started_yesterday)
+        send_fixed_slow_zone_dry(slowzones_ended_yesterday)
+        send_updated_slow_zone_dry(slowzones_changed_yesterday)
+
+    # otherwise, post slow zones to socials
+    else:
+
         # try tweeting
         try:
             send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
