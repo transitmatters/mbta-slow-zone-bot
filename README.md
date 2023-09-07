@@ -26,6 +26,7 @@ You can run the linter against any code changes with the following commands
 $ curl -sSL https://install.python-poetry.org | python3 -
 $ poetry install
 $ poetry run flake8
+$ poetry run black .
 ```
 
 ## Support TransitMatters

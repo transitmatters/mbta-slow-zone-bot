@@ -77,7 +77,6 @@ def main():
 
     # otherwise, post slow zones to socials
     else:
-
         # try tweeting
         try:
             send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
