@@ -5,7 +5,9 @@ import sys
 
 def send_new_slow_zone_dry(sz):
     for line in sz:
+        logging.debug(f"line {line} in slow zone {sz}")
         for z in line:
+            logging.debug(f"z {z} in line {line}")
             try:
                 output = format_new_slow_zone(z)
                 logging.info("\n" + output)
@@ -16,7 +18,9 @@ def send_new_slow_zone_dry(sz):
 
 def send_fixed_slow_zone_dry(sz):
     for line in sz:
+        logging.debug(f"line {line} in slow zone {sz}")
         for z in line:
+            logging.debug(f"z {z} in line {line}")
             try:
                 output = format_fixed_slow_zone(z)
                 logging.info("\n" + output)
@@ -27,7 +31,9 @@ def send_fixed_slow_zone_dry(sz):
 
 def send_updated_slow_zone_dry(sz):
     for line in sz:
+        logging.debug(f"line {line} in slow zone {sz}")
         for z in line:
+            logging.debug(f"z {z} in line {line}")
             try:
                 output = format_updated_slow_zone(z)
                 logging.info("\n" + output)
