@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import json
 import operator
 from itertools import groupby
@@ -162,7 +162,7 @@ def generate_data_dashboard_link(sz):
     stop1 = sz["fr_id"]
     stop2 = sz["to_id"]
     start = (datetime.strptime(sz["start"], "%Y-%m-%dT%H:%M:%S") - timedelta(days=14)).strftime("%Y-%m-%d")
-    end = (datetime.strptime(sz["end"], "%Y-%m-%dT%H:%M:%S") + timedelta(days=2)).strftime("%Y-%m-%d")
+    end = date.today().strftime("%Y-%m-%d")
     link = f"https://dashboard.transitmatters.org/{color}/trips/multi/?from={stop1}&to={stop2}&startDate={start}&endDate={end}"
     logging.debug(f"Generated Data Dashboard link: {link}")
     return link
