@@ -46,12 +46,12 @@ mastodon_client = mastodon.Mastodon(
 def main():
     slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
-    if date.fromisoformat(slow_zones.json()['updated_on']) != date.today():
+    if date.fromisoformat(slow_zones.json()["updated_on"]) != date.today():
         logging.error("Slow zone data was not updated yet today")
         # exit if no issues
         sys.exit(1)
 
-    slow_zones_data = slow_zones.json()['data']
+    slow_zones_data = slow_zones.json()["data"]
 
     grouped_sz_today = generate_grouped_slow_zone_list(slow_zones_data, date.today())
     logging.debug(f"grouped_sz_today: {grouped_sz_today}")
