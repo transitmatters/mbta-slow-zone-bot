@@ -46,22 +46,29 @@ mastodon_client = mastodon.Mastodon(
 def main():
     slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
-    grouped_sz_today = generate_grouped_slow_zone_list(slow_zones.json(), date.today())
+    if date.fromisoformat(slow_zones.json()["updated_on"]) != date.today():
+        logging.error("Slow zone data was not updated yet today")
+        # exit if no issues
+        sys.exit(1)
+
+    slow_zones_data = slow_zones.json()["data"]
+
+    grouped_sz_today = generate_grouped_slow_zone_list(slow_zones_data, date.today())
     logging.debug(f"grouped_sz_today: {grouped_sz_today}")
 
-    slowzones_changed_yesterday = generate_updated_slow_zones(slow_zones.json(), date.today() - timedelta(days=1))
+    slowzones_changed_yesterday = generate_updated_slow_zones(slow_zones_data, date.today() - timedelta(days=1))
     logging.info(f"slowzones_changed_yesterday: {slowzones_changed_yesterday}")
 
     slowzones_ended_yesterday = generate_grouped_slow_zone_list(
         # Slow zones are 1 day behind so we want to check if zones ended two days ago
-        slow_zones.json(),
+        slow_zones_data,
         date.today() - timedelta(days=1),
     )
     logging.info(f"slowzones_ended_yesterday: {slowzones_ended_yesterday}")
 
     slowzones_started_yesterday = generate_new_slow_zones_list(
         # Slow zones take 4 days to be recognized
-        slow_zones.json(),
+        slow_zones_data,
         date.today() - timedelta(days=3),
     )
     logging.info(f"slowzones_started_yesterday: {slowzones_started_yesterday}")
