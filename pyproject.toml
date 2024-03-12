@@ -6,20 +6,20 @@ authors = ["TransitMatters Labs Team"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "~3.11, <3.12"
+python = "~3.12"
 tweepy = "^4.14.0"
 "Mastodon.py" = "^1.8.1"
 argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 pip = ">=23.1"
-flake8 = "^6.1.0"
-black = "^23.12.0"
+flake8 = "^7.0.0"
+black = "^24.2.0"
 
 [tool.black]
 line-length = 120
-target-version = ['py311']
+target-version = ['py312']
 
 [build-system]
-requires = ["poetry-core>=1.6.0"]
+requires = ["poetry-core>=1.7.0"]
 build-backend = "poetry.core.masonry.api"
