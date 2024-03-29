@@ -3,7 +3,7 @@ import mastodon as mastodon
 import requests
 import logging
 import argparse
-from datetime import timedelta, date
+from datetime import datetime, timedelta, date
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots, send_updated_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_updated_slow_zone_tweets
 from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks, send_updated_slow_zone_slacks
@@ -46,9 +46,9 @@ mastodon_client = mastodon.Mastodon(
 def main():
     slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
-    if date.fromisoformat(slow_zones.json()["updated_on"]) != date.today():
+    if datetime.fromisoformat(slow_zones.json()["updated_on"]).date() != date.today():
         logging.error("Slow zone data was not updated yet today")
-        # exit if no issues
+        # exit if issues
         sys.exit(1)
 
     slow_zones_data = slow_zones.json()["data"]
