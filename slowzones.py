@@ -3,7 +3,7 @@ import mastodon as mastodon
 import requests
 import logging
 import argparse
-from datetime import timedelta, date
+from datetime import datetime, timedelta, date
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots, send_updated_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_updated_slow_zone_tweets
 from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks, send_updated_slow_zone_slacks
@@ -46,22 +46,29 @@ mastodon_client = mastodon.Mastodon(
 def main():
     slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
-    grouped_sz_today = generate_grouped_slow_zone_list(slow_zones.json(), date.today())
+    if datetime.fromisoformat(slow_zones.json()["updated_on"]).date() != date.today():
+        logging.error("Slow zone data was not updated yet today")
+        # exit if issues
+        sys.exit(1)
+
+    slow_zones_data = slow_zones.json()["data"]
+
+    grouped_sz_today = generate_grouped_slow_zone_list(slow_zones_data, date.today())
     logging.debug(f"grouped_sz_today: {grouped_sz_today}")
 
-    slowzones_changed_yesterday = generate_updated_slow_zones(slow_zones.json(), date.today() - timedelta(days=1))
+    slowzones_changed_yesterday = generate_updated_slow_zones(slow_zones_data, date.today() - timedelta(days=1))
     logging.info(f"slowzones_changed_yesterday: {slowzones_changed_yesterday}")
 
     slowzones_ended_yesterday = generate_grouped_slow_zone_list(
         # Slow zones are 1 day behind so we want to check if zones ended two days ago
-        slow_zones.json(),
+        slow_zones_data,
         date.today() - timedelta(days=1),
     )
     logging.info(f"slowzones_ended_yesterday: {slowzones_ended_yesterday}")
 
     slowzones_started_yesterday = generate_new_slow_zones_list(
         # Slow zones take 4 days to be recognized
-        slow_zones.json(),
+        slow_zones_data,
         date.today() - timedelta(days=3),
     )
     logging.info(f"slowzones_started_yesterday: {slowzones_started_yesterday}")
