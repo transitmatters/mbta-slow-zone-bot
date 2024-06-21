@@ -1,5 +1,3 @@
-import tweepy
-import mastodon as mastodon
 import requests
 import logging
 import argparse
@@ -8,42 +6,17 @@ from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toot
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_updated_slow_zone_tweets
 from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks, send_updated_slow_zone_slacks
 from domains.dry import send_fixed_slow_zone_dry, send_new_slow_zone_dry, send_updated_slow_zone_dry
-from utils import (
+from chalicelib.output import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,
     generate_new_slow_zones_list,
     generate_updated_slow_zones,
 )
 import sys
-import os
-
-ACCESS_KEY = os.environ.get("ACCESS_KEY")
-ACCESS_SECRET = os.environ.get("ACCESS_SECRET")
-CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
-CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
-MASTODON_CLIENT_KEY = os.environ.get("MASTODON_CLIENT_KEY")
-MASTODON_CLIENT_SECRET = os.environ.get("MASTODON_CLIENT_SECRET")
-MASTODON_ACCESS_TOKEN = os.environ.get("MASTODON_ACCESS_TOKEN")
-DRY_RUN = False
-DEBUG = False
-
-twitter_client = api = tweepy.Client(
-    bearer_token=os.environ.get("BEARER_TOKEN"),
-    access_token=ACCESS_KEY,
-    access_token_secret=ACCESS_SECRET,
-    consumer_key=CONSUMER_KEY,
-    consumer_secret=CONSUMER_SECRET,
-)
-
-mastodon_client = mastodon.Mastodon(
-    api_base_url="https://better.boston",
-    client_id=MASTODON_CLIENT_KEY,
-    client_secret=MASTODON_CLIENT_SECRET,
-    access_token=MASTODON_ACCESS_TOKEN,
-)
+from chalicelib.clients import twitter_client, mastodon_client
 
 
-def main():
+def run(debug=True, dry_run=True):
     slow_zones = requests.get("https://dashboard.transitmatters.org/static/slowzones/all_slow.json")
 
     if datetime.fromisoformat(slow_zones.json()["updated_on"]).date() != date.today():
@@ -77,7 +50,7 @@ def main():
     logging.debug(f"post_text_map: {post_text_map}")
 
     # if a dry run, generate slow zone text but do not post
-    if DRY_RUN:
+    if dry_run:
         send_new_slow_zone_dry(slowzones_started_yesterday)
         send_fixed_slow_zone_dry(slowzones_ended_yesterday)
         send_updated_slow_zone_dry(slowzones_changed_yesterday)
@@ -114,9 +87,6 @@ def main():
         else:
             logging.info("Tooted successfully")
 
-    # exit if no issues
-    sys.exit(0)
-
 
 if __name__ == "__main__":
     # argument parsing
@@ -124,14 +94,14 @@ if __name__ == "__main__":
     parser.add_argument("--dry-run", default=False, action="store_true", help="Runs bot without posting")
     parser.add_argument("--debug", default=False, action="store_true", help="Runs bot with debug logging")
     args = parser.parse_args()
-    DRY_RUN = args.dry_run
-    DEBUG = args.debug
+    dry_run = args.dry_run
+    debug = args.debug
 
     # set logging config
-    if DEBUG:
+    if debug:
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
 
     # begin main program execution
-    main()
+    run(debug, dry_run)
