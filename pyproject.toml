@@ -12,9 +12,9 @@ tweepy = "^4.14.0"
 argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
-pip = ">=23.1"
-flake8 = "^7.0.0"
-black = "^24.2.0"
+pip = ">=24.0"
+flake8 = "^7.1.1"
+black = "^24.8.0"
 
 [tool.black]
 line-length = 120
