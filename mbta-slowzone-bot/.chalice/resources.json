@@ -1,0 +1,48 @@
+{
+  "Parameters": {
+    "DDApiKey": {
+      "Type": "String",
+      "Description": "Datadog API key."
+    },
+    "DDTags": {
+      "Type": "String",
+      "Description": "Additional Datadog Tags"
+    },
+    "GitVersion": {
+      "Type": "String",
+      "Description": "Current Git Id"
+    },
+    "TwitterAccessKey": {
+      "Type": "String",
+      "Description": "Twitter Access Key"
+    },
+    "TwitterAccessSecret": {
+      "Type": "String",
+      "Description": "Twitter Access Secret"
+    },
+    "TwitterConsumerKey": {
+      "Type": "String",
+      "Description": "Twitter Consumer Key"
+    },
+    "TwitterConsumerSecret": {
+      "Type": "String",
+      "Description": "Twitter Consumer Secret"
+    },
+    "MastodonClientKey": {
+      "Type": "String",
+      "Description": "Mastodon Access Token"
+    },
+    "MastodonClientSecret": {
+      "Type": "String",
+      "Description": "Mastodon Access Secret"
+    },
+    "MastodonAccessToken": {
+      "Type": "String",
+      "Description": "Mastodon Access Token"
+    },
+    "SlackWebhookUrl": {
+      "Type": "String",
+      "Description": "Slack Webhook URL"
+    }
+  }
+}
