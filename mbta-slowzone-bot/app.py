@@ -12,4 +12,5 @@ app.register_middleware(ConvertToMiddleware(datadog_lambda_wrapper))
 # 13:30 UTC -> 8:30/9:30am ET every day.
 @app.schedule(Cron(30, 13, "*", "*", "?", "*"))
 def run_slowzone_bot(event):
-    slowzones.run()
+    # TODO: Run as production once tested
+    slowzones.run(dry_run=True, debug=True) 

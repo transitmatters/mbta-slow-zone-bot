@@ -31,4 +31,4 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           poetry install
-          poetry run python3 slowzones.py --dry-run
+          poetry run python3 mbta-slowzone-bot/chalicelib/slowzones.py --dry-run

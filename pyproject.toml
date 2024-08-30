@@ -4,6 +4,7 @@ version = "0.2.3"
 description = "A Twitter/Mastodon/Slack bot to track MBTA slow zones"
 authors = ["TransitMatters Labs Team"]
 license = "MIT"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "~3.12"
