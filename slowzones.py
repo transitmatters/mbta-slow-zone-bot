@@ -112,7 +112,7 @@ def main():
         else:
             logging.info("Sent Slack messages successfully")
 
-        # # try tooting
+        # try tooting
         try:
             send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
             send_fixed_slow_zone_toots(slowzones_ended_yesterday, mastodon_client)
