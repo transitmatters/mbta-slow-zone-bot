@@ -1,9 +1,11 @@
 import tweepy
 import mastodon as mastodon
 import requests
+import atproto
 import logging
 import argparse
 from datetime import datetime, timedelta, date
+from domains.bluesky import send_fixed_slow_zone_bsky, send_new_slow_zone_bsky, send_updated_slow_zone_bsky
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots, send_updated_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_updated_slow_zone_tweets
 from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks, send_updated_slow_zone_slacks
@@ -24,6 +26,9 @@ CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
 MASTODON_CLIENT_KEY = os.environ.get("MASTODON_CLIENT_KEY")
 MASTODON_CLIENT_SECRET = os.environ.get("MASTODON_CLIENT_SECRET")
 MASTODON_ACCESS_TOKEN = os.environ.get("MASTODON_ACCESS_TOKEN")
+ATP_PDS_HOST = os.environ.get("ATP_PDS_HOST") or None
+ATP_AUTH_HANDLE = os.environ.get("ATP_AUTH_HANDLE")
+ATP_AUTH_PASSWORD = os.environ.get("ATP_AUTH_PASSWORD")
 DRY_RUN = False
 DEBUG = False
 
@@ -41,6 +46,9 @@ mastodon_client = mastodon.Mastodon(
     client_secret=MASTODON_CLIENT_SECRET,
     access_token=MASTODON_ACCESS_TOKEN,
 )
+
+bluesky_client = atproto.Client(base_url=ATP_PDS_HOST)
+bluesky_client.login(login=ATP_AUTH_HANDLE, password=ATP_AUTH_PASSWORD)
 
 
 def main():
@@ -104,7 +112,7 @@ def main():
         else:
             logging.info("Sent Slack messages successfully")
 
-        # try tooting
+        # # try tooting
         try:
             send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
             send_fixed_slow_zone_toots(slowzones_ended_yesterday, mastodon_client)
@@ -113,6 +121,16 @@ def main():
             logging.error(f"Failed to toot: {e}")
         else:
             logging.info("Tooted successfully")
+
+        # try bluesky posting
+        try:
+            send_new_slow_zone_bsky(slowzones_started_yesterday, bluesky_client)
+            send_fixed_slow_zone_bsky(slowzones_ended_yesterday, bluesky_client)
+            send_updated_slow_zone_bsky(slowzones_changed_yesterday, bluesky_client)
+        except Exception as e:
+            logging.error(f"Failed to post to Bluesky: {e}")
+        else:
+            logging.info("Posted to bluesky successfully")
 
     # exit if no issues
     sys.exit(0)
