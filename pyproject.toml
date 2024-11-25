@@ -9,6 +9,7 @@ license = "MIT"
 python = "~3.12"
 tweepy = "^4.14.0"
 "Mastodon.py" = "^1.8.1"
+atproto = ">=0.0.55"
 argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]

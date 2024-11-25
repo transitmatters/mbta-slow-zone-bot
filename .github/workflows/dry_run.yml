@@ -19,6 +19,8 @@ jobs:
       MASTODON_CLIENT_KEY: ${{ secrets.MASTODON_CLIENT_KEY }}
       MASTODON_CLIENT_SECRET: ${{ secrets.MASTODON_CLIENT_SECRET }}
       MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
+      ATP_AUTH_HANDLE: ${{ secrets.ATP_AUTH_HANDLE }}
+      ATP_AUTH_PASSWORD: ${{ secrets.ATP_AUTH_PASSWORD }}
       SLOW_ZONE_BOT_SLACK_WEBHOOK_URL: ${{ secrets.SLOW_ZONE_BOT_SLACK_WEBHOOK_URL }}
     steps:
       - name: Checkout repo
