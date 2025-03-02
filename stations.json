@@ -1236,5 +1236,94 @@
         }
       }
     ]
+  },
+  "Mattapan": {
+    "type": "rapidtransit",
+    "direction": {
+      "0": "northbound",
+      "1": "southbound"
+    },
+    "stations": [
+      {
+        "stop_name": "Ashmont",
+        "branches": null,
+        "station": "place-asmnl",
+        "order": 101,
+        "stops": {
+          "0": ["70261", "70094"],
+          "1": ["70261", "70093"]
+        }
+      },
+      {
+        "stop_name": "Cedar Grove",
+        "branches": null,
+        "station": "place-cedgr",
+        "order": 102,
+        "stops": {
+          "0": ["70264"],
+          "1": ["70263"]
+        }
+      },
+      {
+        "stop_name": "Butler",
+        "branches": null,
+        "station": "place-butlr",
+        "order": 103,
+        "stops": {
+          "0": ["70266"],
+          "1": ["70265"]
+        }
+      },
+      {
+        "stop_name": "Milton",
+        "branches": null,
+        "station": "place-miltt",
+        "order": 104,
+        "stops": {
+          "0": ["70268"],
+          "1": ["70267"]
+        }
+      },
+      {
+        "stop_name": "Central Avenue",
+        "branches": null,
+        "station": "place-cenav",
+        "order": 105,
+        "stops": {
+          "0": ["70270"],
+          "1": ["70269"]
+        }
+      },
+      {
+        "stop_name": "Valley Road",
+        "branches": null,
+        "station": "place-valrd",
+        "order": 106,
+        "stops": {
+          "0": ["70272"],
+          "1": ["70271"]
+        }
+      },
+      {
+        "stop_name": "Capen Street",
+        "branches": null,
+        "station": "place-capst",
+        "order": 107,
+        "stops": {
+          "0": ["70274"],
+          "1": ["70273"]
+        }
+      },
+      {
+        "stop_name": "Mattapan",
+        "branches": null,
+        "station": "place-matt",
+        "order": 108,
+        "stops": {
+          "0": ["70276"],
+          "1": ["70275"]
+        }
+      }
+    ]
   }
 }
