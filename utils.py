@@ -4,7 +4,7 @@ import operator
 from itertools import groupby
 import logging
 
-line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠"}
+line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠", "Mattapan": "🟥"}
 
 with open("stations.json", "r") as data_file:
     stations = json.load(data_file)
