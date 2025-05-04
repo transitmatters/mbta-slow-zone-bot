@@ -6,17 +6,30 @@ import logging
 
 line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠", "Mattapan": "🟥"}
 
-with open("stations.json", "r") as data_file:
-    stations = json.load(data_file)
+# Load stations.json from the same directory as this file
+try:
+    with open("stations.json", "r") as data_file:
+        stations = json.load(data_file)
+except Exception as e:
+    logging.error(f"Error loading stations.json: {e}")
+    stations = {}
 
 
-def id_to_stop(line, id):
+def id_to_stop(line: str, id) -> str:
     """takes in a line and id
     returns the name of the stop the id is present in, if it exists
     """
-    for s in stations[line]["stations"]:
-        if str(id) in s["stops"]["0"] or str(id) in s["stops"]["1"]:
-            return s["stop_name"]
+    try:
+        if not stations or line not in stations:
+            logging.warning(f"Line {line} not found in stations data")
+
+        for s in stations[line]["stations"]:
+            if str(id) in s["stops"]["0"] or str(id) in s["stops"]["1"]:
+                return s["stop_name"]
+
+        logging.warning(f"Stop ID {id} not found for line {line}")
+    except Exception as e:
+        logging.error(f"Error looking up stop {id} for line {line}: {e}")
 
 
 def get_stop_pair(sz):
