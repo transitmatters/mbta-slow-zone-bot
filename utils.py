@@ -4,19 +4,32 @@ import operator
 from itertools import groupby
 import logging
 
-line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠"}
+line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠", "Mattapan": "🟥"}
 
-with open("stations.json", "r") as data_file:
-    stations = json.load(data_file)
+# Load stations.json from the same directory as this file
+try:
+    with open("stations.json", "r") as data_file:
+        stations = json.load(data_file)
+except Exception as e:
+    logging.error(f"Error loading stations.json: {e}")
+    stations = {}
 
 
-def id_to_stop(line, id):
+def id_to_stop(line: str, id) -> str:
     """takes in a line and id
     returns the name of the stop the id is present in, if it exists
     """
-    for s in stations[line]["stations"]:
-        if str(id) in s["stops"]["0"] or str(id) in s["stops"]["1"]:
-            return s["stop_name"]
+    try:
+        if not stations or line not in stations:
+            logging.warning(f"Line {line} not found in stations data")
+
+        for s in stations[line]["stations"]:
+            if str(id) in s["stops"]["0"] or str(id) in s["stops"]["1"]:
+                return s["stop_name"]
+
+        logging.warning(f"Stop ID {id} not found for line {line}")
+    except Exception as e:
+        logging.error(f"Error looking up stop {id} for line {line}: {e}")
 
 
 def get_stop_pair(sz):
@@ -136,7 +149,12 @@ def generate_updated_slow_zones(sz, date):
         sorted_slow_zones,
     )
 
-    return list(significant_changed_slow_zones)
+    # Group by color, similar to other functions
+    outputList = []
+    for _, g in groupby(significant_changed_slow_zones, key=operator.itemgetter("color")):
+        outputList.append(list(g))
+    
+    return outputList
 
 
 def generate_post_text_map(g_sz):
