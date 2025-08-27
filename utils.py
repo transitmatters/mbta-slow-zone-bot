@@ -156,6 +156,7 @@ def generate_updated_slow_zones(sz, date):
 
     return outputList
 
+
 def generate_post_text_map(g_sz):
     output_map = []
     for i, line in enumerate(g_sz):
