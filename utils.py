@@ -153,9 +153,8 @@ def generate_updated_slow_zones(sz, date):
     outputList = []
     for _, g in groupby(significant_changed_slow_zones, key=operator.itemgetter("color")):
         outputList.append(list(g))
-    
-    return outputList
 
+    return outputList
 
 def generate_post_text_map(g_sz):
     output_map = []
