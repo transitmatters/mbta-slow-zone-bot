@@ -25,13 +25,3 @@ def send_fixed_slow_zone_slacks(sz):
                 SLOW_ZONE_BOT_SLACK_WEBHOOK_URL,
                 json={"text": output},
             )
-
-
-def send_updated_slow_zone_slacks(sz):
-    for line in sz:
-        for z in line:
-            output = format_updated_slow_zone(z)
-            requests.post(
-                SLOW_ZONE_BOT_SLACK_WEBHOOK_URL,
-                json={"text": output},
-            )
