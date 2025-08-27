@@ -23,10 +23,3 @@ def send_fixed_slow_zone_tweets(sz, client: Client):
         for z in line:
             output = format_fixed_slow_zone(z)
             client.create_tweet(text=output)
-
-
-def send_updated_slow_zone_tweets(sz, client: Client):
-    for line in sz:
-        for z in line:
-            output = format_updated_slow_zone(z)
-            client.create_tweet(text=output)
