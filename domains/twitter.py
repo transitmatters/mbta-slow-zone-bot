@@ -1,4 +1,4 @@
-from utils import chunks, format_fixed_slow_zone, format_new_slow_zone, format_updated_slow_zone
+from utils import chunks, format_fixed_slow_zone, format_new_slow_zone
 from tweepy import Client
 import logging
 

@@ -2,7 +2,7 @@ import os
 
 import requests
 
-from utils import format_fixed_slow_zone, format_new_slow_zone, format_updated_slow_zone
+from utils import format_fixed_slow_zone, format_new_slow_zone
 
 SLOW_ZONE_BOT_SLACK_WEBHOOK_URL = os.environ.get("SLOW_ZONE_BOT_SLACK_WEBHOOK_URL")
 

@@ -1,5 +1,5 @@
 from atproto import Client
-from utils import format_fixed_slow_zone, format_new_slow_zone, format_updated_slow_zone
+from utils import format_fixed_slow_zone, format_new_slow_zone
 import re
 
 
