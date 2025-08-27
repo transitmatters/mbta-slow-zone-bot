@@ -5,11 +5,11 @@ import atproto
 import logging
 import argparse
 from datetime import datetime, timedelta, date
-from domains.bluesky import send_fixed_slow_zone_bsky, send_new_slow_zone_bsky, send_updated_slow_zone_bsky
-from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots, send_updated_slow_zone_toots
-from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets, send_updated_slow_zone_tweets
-from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks, send_updated_slow_zone_slacks
-from domains.dry import send_fixed_slow_zone_dry, send_new_slow_zone_dry, send_updated_slow_zone_dry
+from domains.bluesky import send_fixed_slow_zone_bsky, send_new_slow_zone_bsky
+from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots
+from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets
+from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks
+from domains.dry import send_fixed_slow_zone_dry, send_new_slow_zone_dry
 from utils import (
     generate_grouped_slow_zone_list,
     generate_post_text_map,
@@ -88,7 +88,6 @@ def main():
     if DRY_RUN:
         send_new_slow_zone_dry(slowzones_started_yesterday)
         send_fixed_slow_zone_dry(slowzones_ended_yesterday)
-        send_updated_slow_zone_dry(slowzones_changed_yesterday)
 
     # otherwise, post slow zones to socials
     else:
@@ -96,7 +95,6 @@ def main():
         try:
             send_new_slow_zone_tweets(slowzones_started_yesterday, twitter_client)
             send_fixed_slow_zone_tweets(slowzones_ended_yesterday, twitter_client)
-            send_updated_slow_zone_tweets(slowzones_changed_yesterday, twitter_client)
         except Exception as e:
             logging.error(f"Failed to tweet: {e}")
         else:
@@ -106,7 +104,6 @@ def main():
         try:
             send_new_slow_zone_slacks(slowzones_started_yesterday)
             send_fixed_slow_zone_slacks(slowzones_ended_yesterday)
-            send_updated_slow_zone_slacks(slowzones_changed_yesterday)
         except Exception as e:
             logging.error(f"Failed to send Slack messages: {e}")
         else:
@@ -116,7 +113,6 @@ def main():
         try:
             send_new_slow_zone_toots(slowzones_started_yesterday, mastodon_client)
             send_fixed_slow_zone_toots(slowzones_ended_yesterday, mastodon_client)
-            send_updated_slow_zone_toots(slowzones_changed_yesterday, mastodon_client)
         except Exception as e:
             logging.error(f"Failed to toot: {e}")
         else:
@@ -126,7 +122,6 @@ def main():
         try:
             send_new_slow_zone_bsky(slowzones_started_yesterday, bluesky_client)
             send_fixed_slow_zone_bsky(slowzones_ended_yesterday, bluesky_client)
-            send_updated_slow_zone_bsky(slowzones_changed_yesterday, bluesky_client)
         except Exception as e:
             logging.error(f"Failed to post to Bluesky: {e}")
         else:
