@@ -24,10 +24,3 @@ def send_fixed_slow_zone_toots(sz, client: Mastodon):
         for z in line:
             output = format_fixed_slow_zone(z)
             client.status_post(status=output)
-
-
-def send_updated_slow_zone_toots(sz, client: Mastodon):
-    for line in sz:
-        for z in line:
-            output = format_updated_slow_zone(z)
-            client.status_post(status=output)
