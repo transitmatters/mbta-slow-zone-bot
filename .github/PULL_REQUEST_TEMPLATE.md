@@ -1,5 +1,3 @@
-*Ensure your PR title follows the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) spec*
-
 ## Motivation
 
 <!-- Why are you making this change, what problem does it solve? Include links to relevant issues -->
