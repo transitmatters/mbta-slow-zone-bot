@@ -141,11 +141,14 @@ def generate_updated_slow_zones(sz, date):
 
     significant_changed_slow_zones = filter(
         # Check for NaN in case of shuttling
-        lambda s: s["latest_delay"] is not None and s["previous_delay"] is not None
-        # Check for a >= 10% change
-        and get_change(s["latest_delay"], s["previous_delay"]) >= 10
-        # Check for 10 second minumum change
-        and abs(s["latest_delay"] - s["previous_delay"]) >= 10,
+        lambda s: (
+            s["latest_delay"] is not None
+            and s["previous_delay"] is not None
+            # Check for a >= 10% change
+            and get_change(s["latest_delay"], s["previous_delay"]) >= 10
+            # Check for 10 second minumum change
+            and abs(s["latest_delay"] - s["previous_delay"]) >= 10
+        ),
         sorted_slow_zones,
     )
 
