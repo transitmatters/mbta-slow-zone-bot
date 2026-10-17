@@ -1,6 +1,5 @@
-from utils import format_fixed_slow_zone, format_new_slow_zone
+from ..utils import format_fixed_slow_zone, format_new_slow_zone
 import logging
-import sys
 
 
 def send_new_slow_zone_dry(sz):
@@ -13,7 +12,7 @@ def send_new_slow_zone_dry(sz):
                 logging.info("\n" + output)
             except Exception as e:
                 logging.error(f"Error formatting output for new slow zone {z}: {e}")
-                sys.exit(1)
+                raise
 
 
 def send_fixed_slow_zone_dry(sz):
@@ -26,4 +25,4 @@ def send_fixed_slow_zone_dry(sz):
                 logging.info("\n" + output)
             except Exception as e:
                 logging.error(f"Error formatting output for fixed slow zone {z}: {e}")
-                sys.exit(1)
+                raise

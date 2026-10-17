@@ -3,12 +3,13 @@ import json
 import operator
 from itertools import groupby
 import logging
+from pathlib import Path
 
 line_emoji_map = {"Red": "🔴", "Green": "🟢", "Blue": "🔵", "Orange": "🟠", "Mattapan": "🟥"}
 
 # Load stations.json from the same directory as this file
 try:
-    with open("stations.json", "r") as data_file:
+    with open(Path(__file__).parent / "stations.json", "r") as data_file:
         stations = json.load(data_file)
 except Exception as e:
     logging.error(f"Error loading stations.json: {e}")

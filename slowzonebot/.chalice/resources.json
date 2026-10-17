@@ -1,0 +1,128 @@
+{
+  "Parameters": {
+    "DDApiKey": {
+      "Type": "String",
+      "Description": "Datadog API key."
+    },
+    "DDTags": {
+      "Type": "String",
+      "Description": "Additional Datadog Tags"
+    },
+    "GitVersion": {
+      "Type": "String",
+      "Description": "Current Git Id"
+    },
+    "TwitterAccessKey": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Twitter access token"
+    },
+    "TwitterAccessSecret": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Twitter access token secret"
+    },
+    "TwitterConsumerKey": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Twitter consumer key"
+    },
+    "TwitterConsumerSecret": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Twitter consumer secret"
+    },
+    "TwitterBearerToken": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Twitter bearer token"
+    },
+    "MastodonClientKey": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Mastodon client key"
+    },
+    "MastodonClientSecret": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Mastodon client secret"
+    },
+    "MastodonAccessToken": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Mastodon access token"
+    },
+    "AtpAuthHandle": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Bluesky handle"
+    },
+    "AtpAuthPassword": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Bluesky app password"
+    },
+    "SlackWebhookUrl": {
+      "Type": "String",
+      "NoEcho": true,
+      "Description": "Slack webhook URL"
+    }
+  },
+  "Resources": {
+    "PostSlowZones": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Description": "Posts new and fixed MBTA slow zones to social media once a day",
+        "Environment": {
+          "Variables": {
+            "DD_API_KEY": {
+              "Ref": "DDApiKey"
+            },
+            "DD_VERSION": {
+              "Ref": "GitVersion"
+            },
+            "DD_TAGS": {
+              "Ref": "DDTags"
+            },
+            "ACCESS_KEY": {
+              "Ref": "TwitterAccessKey"
+            },
+            "ACCESS_SECRET": {
+              "Ref": "TwitterAccessSecret"
+            },
+            "CONSUMER_KEY": {
+              "Ref": "TwitterConsumerKey"
+            },
+            "CONSUMER_SECRET": {
+              "Ref": "TwitterConsumerSecret"
+            },
+            "BEARER_TOKEN": {
+              "Ref": "TwitterBearerToken"
+            },
+            "MASTODON_CLIENT_KEY": {
+              "Ref": "MastodonClientKey"
+            },
+            "MASTODON_CLIENT_SECRET": {
+              "Ref": "MastodonClientSecret"
+            },
+            "MASTODON_ACCESS_TOKEN": {
+              "Ref": "MastodonAccessToken"
+            },
+            "ATP_AUTH_HANDLE": {
+              "Ref": "AtpAuthHandle"
+            },
+            "ATP_AUTH_PASSWORD": {
+              "Ref": "AtpAuthPassword"
+            },
+            "SLOW_ZONE_BOT_SLACK_WEBHOOK_URL": {
+              "Ref": "SlackWebhookUrl"
+            }
+          }
+        },
+        "EventInvokeConfig": {
+          "MaximumRetryAttempts": 0
+        }
+      }
+    }
+  }
+}

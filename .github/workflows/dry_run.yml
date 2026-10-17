@@ -8,17 +8,8 @@ jobs:
   bot:
     runs-on: ubuntu-latest
     env:
-      ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-      ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
-      CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
-      CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
-      BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
-      MASTODON_CLIENT_KEY: ${{ secrets.MASTODON_CLIENT_KEY }}
-      MASTODON_CLIENT_SECRET: ${{ secrets.MASTODON_CLIENT_SECRET }}
-      MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
-      ATP_AUTH_HANDLE: ${{ secrets.ATP_AUTH_HANDLE }}
-      ATP_AUTH_PASSWORD: ${{ secrets.ATP_AUTH_PASSWORD }}
-      SLOW_ZONE_BOT_SLACK_WEBHOOK_URL: ${{ secrets.SLOW_ZONE_BOT_SLACK_WEBHOOK_URL }}
+      # chalice package needs a region, but no credentials
+      AWS_DEFAULT_REGION: us-east-1
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -26,7 +17,12 @@ jobs:
         uses: jdx/mise-action@v5
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
+      - name: Install dependencies
+        run: uv sync --group dev
       - name: Run MBTA Slow Zone Bot in Dry Run mode
+        run: uv run python -m slowzonebot.chalicelib.slowzones --dry-run
+      - name: Package Chalice app (no deploy)
         run: |
-          uv sync
-          uv run python3 slowzones.py --dry-run
+          uv export --no-hashes --no-dev > slowzonebot/requirements.txt
+          cd slowzonebot
+          uv run chalice package --stage prod --merge-template .chalice/resources.json cfn/
