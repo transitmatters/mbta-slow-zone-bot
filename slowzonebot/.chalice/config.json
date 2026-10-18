@@ -1,0 +1,31 @@
+{
+  "version": "2.0",
+  "app_name": "mbta-slow-zone-bot",
+  "automatic_layer": true,
+  "layers": [
+    "arn:aws:lambda:us-east-1:464622532012:layer:Datadog-Extension:101"
+  ],
+  "stages": {
+    "prod": {
+      "api_gateway_stage": "api",
+      "autogen_policy": false,
+      "environment_variables": {
+        "DD_SITE": "datadoghq.com",
+        "DD_ENV": "prod",
+        "DD_SERVICE": "mbta-slow-zone-bot",
+        "DD_TRACE_ENABLED": "true"
+      },
+      "tags": {
+        "service": "mbta-slow-zone-bot",
+        "env": "prod"
+      },
+      "lambda_functions": {
+        "post_slow_zones": {
+          "iam_policy_file": "policy.json",
+          "lambda_timeout": 120,
+          "lambda_memory_size": 256
+        }
+      }
+    }
+  }
+}

@@ -16,8 +16,9 @@ jobs:
         uses: jdx/mise-action@v5
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
+      - name: Install dependencies
+        run: uv sync --group dev
       - name: Lint and check formatting of backend code with Ruff
         run: |
-          uv sync
-          uv run ruff check .
-          uv run ruff format . --check
+          uv run ruff check slowzonebot
+          uv run ruff format slowzonebot --check
