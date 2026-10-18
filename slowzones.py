@@ -9,6 +9,7 @@ from domains.bluesky import send_fixed_slow_zone_bsky, send_new_slow_zone_bsky
 from domains.mastodon import send_fixed_slow_zone_toots, send_new_slow_zone_toots
 from domains.twitter import send_fixed_slow_zone_tweets, send_new_slow_zone_tweets
 from domains.slack import send_fixed_slow_zone_slacks, send_new_slow_zone_slacks
+from domains.threads import send_fixed_slow_zone_threads, send_new_slow_zone_threads
 from domains.dry import send_fixed_slow_zone_dry, send_new_slow_zone_dry
 from utils import (
     generate_grouped_slow_zone_list,
@@ -126,6 +127,15 @@ def main():
             logging.error(f"Failed to post to Bluesky: {e}")
         else:
             logging.info("Posted to bluesky successfully")
+
+        # try threads posting
+        try:
+            send_new_slow_zone_threads(slowzones_started_yesterday)
+            send_fixed_slow_zone_threads(slowzones_ended_yesterday)
+        except Exception as e:
+            logging.error(f"Failed to post to Threads: {e}")
+        else:
+            logging.info("Posted to Threads successfully")
 
     # exit if no issues
     sys.exit(0)

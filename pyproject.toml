@@ -1,7 +1,7 @@
 [project]
 name = "mbta-slow-zone-bot"
 version = "0.2.4"
-description = "A Twitter/Mastodon/Slack bot to track MBTA slow zones"
+description = "A Twitter/Mastodon/Bluesky/Threads/Slack bot to track MBTA slow zones"
 authors = [{ name = "TransitMatters Labs Team" }]
 requires-python = ">=3.12,<3.13"
 license = "MIT"
