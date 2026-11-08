@@ -19,7 +19,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "chalice~=1.33.0",
+    "chalice~=1.34.0",
     "ruff>=0.17.1",
     "pre-commit>=4.6.2",
 ]
