@@ -14,7 +14,7 @@ dependencies = [
     "tweepy>=4.17.0,<5",
     "Mastodon.py>=2.2.2,<3",
     "atproto>=0.0.73",
-    "datadog_lambda~=8.129.0",
+    "datadog_lambda~=8.130.0",
 ]
 
 [dependency-groups]
